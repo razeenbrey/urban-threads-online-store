@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 import { seedProducts } from '../../services/seed';
 
-import HeroImage from './hero.jpg';
 import LocalImage from './local.jpg';
-import QualityImage from './quality.jpg';
 
 function Home() {
   // TEMP SEED BLOCK (DELETE AFTER RUNNING `npm start` ONCE)

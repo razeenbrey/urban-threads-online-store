@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../services/AuthContext';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';

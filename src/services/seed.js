@@ -1,5 +1,5 @@
 import { db } from "../firebase";
-import { doc, setDoc, writeBatch } from "firebase/firestore";
+import { doc, writeBatch } from "firebase/firestore";
 
 // Some demo objects for the store
 export const products = [
