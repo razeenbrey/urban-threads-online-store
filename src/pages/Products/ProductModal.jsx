@@ -28,16 +28,18 @@ function ProductModal({ product, isOpen, onClose }) {
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen || !product) return null;
+  const handleAddToCart = () => {
+    if (!currentUser) {
+      // Not logged in - show login modal
+      setIsLoginModalOpen(true);
+    } else {
+      // Logged in - add to cart
+      addToCart(currentUser.uid, product);
+      alert("Added to cart!");
+    }
+  };
 
-    const handleAddToCart = () => {
-        if (!currentUser) {
-            setIsLoginModalOpen(true);
-        } else {
-            addToCart(currentUser.uid, product);
-            alert("Added to cart!");
-        }
-    };
+  if (!isOpen || !product) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -70,17 +72,7 @@ function ProductModal({ product, isOpen, onClose }) {
             
             <div className="modal-actions">
               <button className="add-to-cart-btn"
-                onClick={
-                    () => {
-                        if (!currentUser) {
-                            // Not logged in - show login modal
-                            setIsLoginModalOpen(true);
-                            } else {
-                            // Logged in - add to cart
-                            addToCart(currentUser.uid, product);
-                        }
-                    }
-                }
+                onClick={handleAddToCart}
               >
                 Add to Cart
               </button>
@@ -99,6 +91,10 @@ function ProductModal({ product, isOpen, onClose }) {
           </div>
         </div>
       </div>
+              <LoginModal 
+                isOpen={isLoginModalOpen}
+                onClose={() => setIsLoginModalOpen(false)}
+                />
     </div>
   );
 }

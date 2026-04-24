@@ -8,21 +8,17 @@ function Sidebar() {
 
   return (
     <>
-      <button className="btn btn-primary" onClick={() => setShow(true)}>
-        Open Menu
-      </button>
+      <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
 
-      <Offcanvas show={show} onHide={() => setShow(false)} placement="start">
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Urban Threads</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <Nav className="flex-column">
-            <Nav.Link href="/"><HomeIcon className="me-2" /> Home</Nav.Link>
-            <Nav.Link href="/products"><ShoppingBagIcon className="me-2" /> Products</Nav.Link>
-          </Nav>
-        </Offcanvas.Body>
-      </Offcanvas>
+      <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div className="offcanvas-header">
+          <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div className="offcanvas-body">
+          ...
+        </div>
+      </div>
     </>
   );
 }

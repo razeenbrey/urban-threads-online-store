@@ -4,6 +4,8 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home/Home';
 import Products from './pages/Products/Products';
 import About from './pages/About/About';
+import CartOffCanvas from './components/CartView/CartOffCanvas';
+
 import { AuthProvider } from './services/AuthContext';
 
 function App() {
@@ -11,6 +13,7 @@ function App() {
     <AuthProvider>
       <div className='app'>
           <Navbar />  {}
+          <CartOffCanvas />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />

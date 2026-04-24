@@ -1,13 +1,21 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../services/AuthContext';
+
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { useAuth } from '../services/AuthContext';
+import { IconButton } from '@mui/material';
+
 import LoginModal from './LoginModal';
+import CartOffCanvas from './CartView/CartOffCanvas';
 
 function Navbar() {
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { currentUser, userData, logout } = useAuth();
+  const [showCart, setShowCart] = useState(false);
+
+  const handleShowCart = () => setShowCart(true);
 
   const handleProfileClick = () => {
     if (!currentUser) {
@@ -41,10 +49,11 @@ function Navbar() {
             
             <div className="d-flex align-items-center gap-3">
 
-                <div style={{cursor:'pointer'}}>
-                    <ShoppingCartIcon color='primary' sx={{fontSize:40}}/>
-                </div>
+                <IconButton onClick={handleShowCart} sx={{ p: 0 }}>
+                    <ShoppingCartIcon color='primary' sx={{ fontSize: 40 }} />
+                </IconButton>
 
+                
               <div style={{ cursor: 'pointer' }} onClick={handleProfileClick}>
                 <AccountCircleIcon color="primary" sx={{ fontSize: 40 }} />
               </div>
@@ -78,6 +87,8 @@ function Navbar() {
         isOpen={isLoginModalOpen} 
         onClose={() => setIsLoginModalOpen(false)} 
       />
+
+      <CartOffCanvas show={showCart} setShow={setShowCart}/>
     </>
   );
 }
