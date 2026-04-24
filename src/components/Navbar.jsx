@@ -31,7 +31,7 @@ function Navbar() {
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">Urban Threads</a>
+          <a className="navbar-brand" href="/">🧵 Urban Threads</a>
 
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
             <span className="navbar-toggler-icon"></span>

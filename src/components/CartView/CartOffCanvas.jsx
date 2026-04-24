@@ -1,4 +1,3 @@
-// CartOffCanvas.jsx
 import React, { useState, useEffect } from 'react';
 import { Offcanvas, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { useAuth } from '../../services/AuthContext';
@@ -20,7 +19,7 @@ function CartOffCanvas({ show, setShow }) {
 
   const handleClose = () => setShow(false);
 
-  // Fetch cart items in real-time
+  
   useEffect(() => {
     if (!currentUser) {
       setCartItems([]);
@@ -31,7 +30,7 @@ function CartOffCanvas({ show, setShow }) {
     setLoading(true);
     const userRef = doc(db, "users", currentUser.uid);
     
-    // Real-time listener for cart changes
+  
     const unsubscribe = onSnapshot(userRef, (doc) => {
       if (doc.exists()) {
         const userData = doc.data();
@@ -48,14 +47,14 @@ function CartOffCanvas({ show, setShow }) {
     return () => unsubscribe();
   }, [currentUser]);
 
-  // Handle remove from cart
+  
   const handleRemoveFromCart = async (productId) => {
     if (!currentUser) return;
     
     setUpdating(true);
     try {
       await removeFromCart(currentUser.uid, productId);
-      // The real-time listener will automatically update the UI
+  
     } catch (error) {
       console.error("Error removing from cart:", error);
       alert("Failed to remove item from cart");
@@ -64,7 +63,7 @@ function CartOffCanvas({ show, setShow }) {
     }
   };
 
-  // Calculate total price
+  
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
       const price = item.price || 0;
@@ -73,7 +72,7 @@ function CartOffCanvas({ show, setShow }) {
     }, 0);
   };
 
-  // Format price (assuming R for South African Rand)
+  
   const formatPrice = (price) => {
     return `R ${price?.toFixed(2) || '0.00'}`;
   };
@@ -122,7 +121,7 @@ function CartOffCanvas({ show, setShow }) {
                       {formatPrice(item.price)}
                     </div>
                     
-                    {/* Quantity controls (optional) */}
+  
                     {item.quantity && (
                       <div className="cart-item-quantity mt-2">
                         <small>Quantity: {item.quantity}</small>
@@ -145,7 +144,7 @@ function CartOffCanvas({ show, setShow }) {
               ))}
             </ListGroup>
             
-            {/* Cart Summary */}
+  
             <div className="cart-summary mt-4 pt-3 border-top">
               <div className="d-flex justify-content-between mb-3">
                 <strong>Subtotal:</strong>

@@ -1,18 +1,29 @@
-// src/pages/Home/Home.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
+import { seedProducts } from '../../services/seed';
 
-// Import your images
 import HeroImage from './hero.jpg';
 import LocalImage from './local.jpg';
 import QualityImage from './quality.jpg';
 
 function Home() {
+  // TEMP SEED BLOCK (DELETE AFTER RUNNING `npm start` ONCE)
+  useEffect(() => {
+    seedProducts()
+      .then((message) => {
+        console.log('[SEED SUCCESS]', message);
+      })
+      .catch((error) => {
+        console.error('[SEED ERROR]', error);
+      });
+  }, []);
+  // END TEMP SEED BLOCK
+
   return (
     <div className="home">
       
-      {/* Hero Section with Background Image */}
+
       <section className="hero">
         <div className="hero-overlay"></div>
         <div className="hero-content">
@@ -22,7 +33,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Who We Are Section */}
+
       <section className="about">
         <div className="container">
           <h2>Who We Are</h2>
@@ -41,7 +52,7 @@ function Home() {
         </div>
       </section>
 
-      {/* What We Do Section */}
+
       <section className="what-we-do">
         <div className="container">
           <h2>What We Do</h2>
@@ -65,7 +76,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Reviews Section */}
+
       <section className="reviews">
         <div className="container">
           <h2>What Our Customers Say</h2>

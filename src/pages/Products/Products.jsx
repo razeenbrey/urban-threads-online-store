@@ -1,15 +1,16 @@
-// Products.jsx - Updated version
 import React, { useState, useEffect } from 'react';
+import { db } from '../../firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import { useAuth } from '../../services/AuthContext';
+import { addToCart } from '../../services/CartServices';
+
 import ProductCard from './ProductCard';
 import HeroProducts from './HeroProducts.jpg';
 import Sidebar from './Sidebar';
 import ProductModal from './ProductModal';
 import LoginModal from '../../components/LoginModal';
-import { db } from '../../firebase';
-import { collection, getDocs } from 'firebase/firestore';
-import { useAuth } from '../../services/AuthContext';
-import { addToCart } from '../../services/CartServices';
-import './Products.css'; // Import the CSS
+
+import './Products.css';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -45,7 +46,7 @@ function Products() {
     fetchProducts();
   }, []);
 
-  // Filter products by category
+  // Filiter products by category
   useEffect(() => {
     if (selectedCategory === 'all') {
       setFilteredProducts(products);
@@ -108,7 +109,7 @@ function Products() {
 
   return (
     <div className="products">
-      {/* Hero Section */}
+      
       <div className="hero-section">
         <img src={HeroProducts} alt="Hero" className="hero-image" />
         <div className="hero-overlay">
@@ -119,9 +120,9 @@ function Products() {
         </div>
       </div>
 
-      {/* Products Layout with Sidebar */}
+      
       <div className="products-layout">
-        {/* Sidebar for filtering */}
+      
         <div className="sidebar">
           <Sidebar 
             selectedCategory={selectedCategory}
@@ -129,7 +130,7 @@ function Products() {
           />
         </div>
 
-        {/* Main Products Grid */}
+      
         <div className="main-content">
           <div className="products-info">
             <p>{filteredProducts.length} products found</p>
@@ -147,7 +148,7 @@ function Products() {
         </div>
       </div>
 
-      {/* Modals */}
+      
       <ProductModal
         product={selectedProduct}
         isOpen={isModalOpen}
