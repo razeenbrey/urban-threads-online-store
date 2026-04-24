@@ -25,10 +25,13 @@ const getFirstAvailableEnv = (keys) => {
   );
 };
 
+const projectId =
+  process.env.REACT_APP_FIREBASE_PROJECT_ID || "urban-threads-online-store";
+
 const firebaseConfig = {
   apiKey: getRequiredEnv("REACT_APP_FIREBASE_API_KEY"),
   authDomain: getRequiredEnv("REACT_APP_FIREBASE_AUTH_DOMAIN"),
-  projectId: getRequiredEnv("REACT_APP_FIREBASE_PROJECT_ID"),
+  projectId,
   storageBucket: getRequiredEnv("REACT_APP_FIREBASE_STORAGE_BUCKET"),
   messagingSenderId: getFirstAvailableEnv([
     "REACT_APP_FIREBASE_SENDER_ID",
