@@ -1,25 +1,27 @@
-import { useState } from 'react';
-import { Offcanvas, Nav } from 'react-bootstrap';
-import HomeIcon from '@mui/icons-material/Home';
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+// Sidebar.jsx
+import React from 'react';
+import './Sidebar.css';
 
-function Sidebar() {
-  const [show, setShow] = useState(false);
-
+function Sidebar({ selectedCategory, onCategoryChange }) {
+  const categories = ['all', 'Hoodies', 'T-Shirts', 'Jackets', 'Pants'];
+  
   return (
-    <>
-      <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
-
-      <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div className="offcanvas-header">
-          <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div className="offcanvas-body">
-          ...
-        </div>
-      </div>
-    </>
+    <div className="sidebar">
+      <h3>Categories</h3>
+      <ul className="category-list">
+        {categories.map(category => (
+          <li key={category}>
+            <button
+              className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
+              onClick={() => onCategoryChange(category)}
+            >
+              {category === 'all' ? 'All Products' : category}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
+
 export default Sidebar;

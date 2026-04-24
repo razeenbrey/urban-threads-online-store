@@ -1,136 +1,170 @@
+// Products.jsx - Updated version
+import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
-import HeroProducts from './/HeroProducts.jpg';
+import HeroProducts from './HeroProducts.jpg';
 import Sidebar from './Sidebar';
 import ProductModal from './ProductModal';
 import LoginModal from '../../components/LoginModal';
-
-// import { getAllProducts } from '../../services/productService';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import React from 'react';
-import { db } from '../../firebase'
+import { db } from '../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { useAuth } from '../../services/AuthContext';
 import { addToCart } from '../../services/CartServices';
+import './Products.css'; // Import the CSS
 
-function Products(){
+function Products() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pendingProduct, setPendingProduct] = useState(null);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [selectedProduct, setSelectedProduct] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [pendingProduct, setPendingProduct] = useState(null);
-    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { currentUser } = useAuth();
 
-    const { currentUser } = useAuth(); // get user detaiks
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'products'));
-                const productsData = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                setProducts(productsData);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchProducts();
-    }, []);
-
-    const openModal = (product) => {
-        setSelectedProduct(product);
-        setIsModalOpen(true);
-        document.body.style.overflow = 'hidden'
+  // Fetch products
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'products'));
+        const productsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setProducts(productsData);
+        setFilteredProducts(productsData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectedProduct(null);
-        document.body.style.overflow = 'auto';
-    };
+    fetchProducts();
+  }, []);
 
-    const handleAddToCart = (product) => {
-        if (!currentUser) {
-            setPendingProduct(product);
-            setIsLoginModalOpen(true);
-            return false;
-        }
-        // addToCart(product)
-        addToCart(currentUser.id, product.id)
-        alert("Added to cart!")
-        return true; // user signed in, proceed with add to cart
-    };
+  // Filter products by category
+  useEffect(() => {
+    if (selectedCategory === 'all') {
+      setFilteredProducts(products);
+    } else {
+      setFilteredProducts(products.filter(product => product.category === selectedCategory));
+    }
+  }, [selectedCategory, products]);
 
-    // after login, add pending item to cart.
-    const handleLoginSucess = () => {
-        if (pendingProduct) {
-            // addToCart(pendingProduct)
-            addToCart(currentUser.id, pendingProduct.id)
-            alert("Added to cart!")
-            setPendingProduct(null);
-        }
-    };
+  const openModal = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
 
-    if (loading) return <div>Loading products...</div>;
-    if (error) return <div>Error: {error}</div>;
-    if (products.length === 0) return <div>No products available.</div>;
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+    document.body.style.overflow = 'auto';
+  };
 
-    return(
-        <div className="Products">
+  const handleAddToCart = (product) => {
+    if (!currentUser) {
+      setPendingProduct(product);
+      setIsLoginModalOpen(true);
+      return false;
+    }
+    addToCart(currentUser.uid, product);
+    alert(`${product.name} added to cart!`);
+    return true;
+  };
 
-            <div className="card text-bg-dark">
-            <div style={{ maxWidth: '6720px', height: '250px', objectFit:"cover", objectPosition:'top' }} className="mx-auto border overflow-hidden">
-                <img src={HeroProducts} style={{ objectPosition:'bottom' }} className="card-img" alt="..."/>
-            </div>
-            <div className="card-img-overlay d-flex flex-column justify-content-center align-items-center z-1">
-                <h1 className="card-title">Our hoodies</h1>
-                <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            </div>
-            </div>
-            
-            <div class="d-flex justify-content-between flex-column">
-                <div class="row">
-                    <div class="col">
-                        1 of 3
-                    </div>
-                    <div className="products-grid">
-                        
-                        {products.map(product => (<ProductCard key={product.id}
-                                                                product={product}
-                                                                onProductClick={() => openModal(product)} />
-                    ))}
+  const handleLoginSuccess = () => {
+    if (pendingProduct && currentUser) {
+      addToCart(currentUser.uid, pendingProduct);
+      alert(`${pendingProduct.name} added to cart!`);
+      setPendingProduct(null);
+    }
+  };
 
-                    </div>
-                    <div class="col">
-                        3 of 3
-                    </div>
-                </div>
-            </div>
-            <ProductModal
-                product={selectedProduct}
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                onAddToCart = {handleAddToCart}
-            />
+  // Loading state
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading products...</p>
+      </div>
+    );
+  }
 
-            <LoginModal 
-                isOpen={isLoginModalOpen} 
-                onClose={() => {
-                    setIsLoginModalOpen(false);
-                    setPendingProduct(null);
-                }}
-            />
+  // Error state
+  if (error) {
+    return (
+      <div className="error-container">
+        <h3>Error loading products</h3>
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()}>Try Again</button>
+      </div>
+    );
+  }
 
-            
+  return (
+    <div className="products">
+      {/* Hero Section */}
+      <div className="hero-section">
+        <img src={HeroProducts} alt="Hero" className="hero-image" />
+        <div className="hero-overlay">
+          <h1 className="hero-title">Our Collection</h1>
+          <p className="hero-subtitle">
+            Discover our premium hoodies, designed for comfort and style
+          </p>
         </div>
-    )
+      </div>
+
+      {/* Products Layout with Sidebar */}
+      <div className="products-layout">
+        {/* Sidebar for filtering */}
+        <div className="sidebar">
+          <Sidebar 
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+          />
+        </div>
+
+        {/* Main Products Grid */}
+        <div className="main-content">
+          <div className="products-info">
+            <p>{filteredProducts.length} products found</p>
+          </div>
+          
+          <div className="products-grid">
+            {filteredProducts.map(product => (
+              <ProductCard 
+                key={product.id}
+                product={product}
+                onProductClick={() => openModal(product)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Modals */}
+      <ProductModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onAddToCart={handleAddToCart}
+      />
+
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => {
+          setIsLoginModalOpen(false);
+          setPendingProduct(null);
+        }}
+        onLoginSuccess={handleLoginSuccess}
+      />
+    </div>
+  );
 }
 
 export default Products;

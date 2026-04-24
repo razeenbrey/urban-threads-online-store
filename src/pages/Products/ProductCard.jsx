@@ -1,15 +1,39 @@
-function ProductCard( {product, onProductClick} ){
-    return(
-        <div className="card product-card" style={{width: "18rem"}} onClick={onProductClick}>
-            <img src={product.imageURL} className="card-img-top" alt="..."/>
-            <div className="card-body">
-                <h5 className="card-title">{product.name}</h5>
-                <p className="card-text">{product.price}</p>
-                <a href="#" className="btn btn-primary">Buy</a>
+// ProductCard.jsx
+import React from 'react';
+import './ProductCard.css';
 
-            </div>
+function ProductCard({ product, onProductClick }) {
+  return (
+    <div className="product-card" onClick={onProductClick}>
+      <div className="product-card-image">
+        <img 
+          src={product.imageURL} 
+          alt={product.name}
+          loading="lazy"
+          onError={(e) => {
+            e.target.src = '/placeholder-image.jpg';
+          }}
+        />
+        {product.category && (
+          <span className="product-category-badge">{product.category}</span>
+        )}
+      </div>
+      
+      <div className="product-card-content">
+        <h3 className="product-card-title">{product.name}</h3>
+        <p className="product-card-description">
+          {product.description?.substring(0, 60)}
+          {product.description?.length > 60 ? '...' : ''}
+        </p>
+        <div className="product-card-footer">
+          <span className="product-card-price">
+            R {product.price?.toFixed(2)}
+          </span>
+          <button className="product-card-btn">Quick View</button>
         </div>
-    )
+      </div>
+    </div>
+  );
 }
 
 export default ProductCard;

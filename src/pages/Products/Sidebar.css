@@ -1,0 +1,43 @@
+.sidebar {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  position: sticky;
+  top: 20px;
+}
+
+.sidebar h3 {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-list li {
+  margin-bottom: 10px;
+}
+
+.category-btn {
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-btn:hover {
+  background: #e9ecef;
+}
+
+.category-btn.active {
+  background: #3498db;
+  color: white;
+  border-color: #3498db;
+}

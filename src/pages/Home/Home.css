@@ -1,0 +1,230 @@
+/* src/pages/Home/Home.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Hero Section with Background Image */
+.hero {
+  background-image: url('./hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.shop-btn {
+  display: inline-block;
+  background: white;
+  color: #1a1a2e;
+  padding: 12px 30px;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+.shop-btn:hover {
+  transform: scale(1.05);
+}
+
+/* About Section with Image */
+.about {
+  padding: 60px 20px;
+  background: white;
+}
+
+.about h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #1a1a2e;
+  text-align: center;
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.about-image {
+  flex: 1;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* What We Do Section */
+.what-we-do {
+  padding: 60px 20px;
+  background: #f5f5f5;
+  text-align: center;
+}
+
+.what-we-do h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #1a1a2e;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.feature {
+  max-width: 250px;
+  text-align: center;
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.feature h3 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #1a1a2e;
+}
+
+.feature p {
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Reviews Section */
+.reviews {
+  padding: 60px 20px;
+  background: white;
+  text-align: center;
+}
+
+.reviews h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #1a1a2e;
+}
+
+.review-cards {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.review {
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 10px;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.stars {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.review p {
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.review h4 {
+  color: #1a1a2e;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .about h2,
+  .what-we-do h2,
+  .reviews h2 {
+    font-size: 1.5rem;
+  }
+
+  .about-content {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .about-text {
+    order: 2;
+  }
+  
+  .about-image {
+    order: 1;
+  }
+  
+  .features {
+    gap: 30px;
+  }
+  
+  .review-cards {
+    gap: 20px;
+  }
+}
